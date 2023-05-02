@@ -1,0 +1,58 @@
+
+.drop-area {
+  background-color: #F0F4F8;
+  border: 3px dashed #667EEA;
+  border-radius: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  color: #667EEA;
+  padding: 30px;
+  text-align: center;
+}
+
+.drop-area:hover {
+  background-color: #E5E9F2;
+  border: 3px dashed #3B82F6;
+  color: #3B82F6;
+}
+
+.drop-area.dragging-over {
+  background-color: #D1D5DB;
+  border: 3px dashed #1E40AF;
+  color: #1E40AF;
+}
+
+.drop-area span {
+  display: block;
+  font-size: 16px;
+  margin-top: 20px;
+  color: #4B5563;
+}
+
+body {
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 10px;
+}
+
+h1 {
+  font-weight: normal;
+}
+
+
+header {
+  display: flex;
+  justify-content: start;
+}
+
+header h3 {
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+header svg {
+  width: 50px;
+  height: 50px;
+  fill: #1E40AF;
+}
