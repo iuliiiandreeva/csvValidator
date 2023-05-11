@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./index.css";
 import { parse } from "papaparse";
 
@@ -6,6 +6,10 @@ const DragAndDrop = () => {
     const [fileData, setFileData] = useState([]);
     const [dragging, setDragging] = useState(false);
     const [message, setMessage] = useState("");
+    const [mes, setMes] = useState([]);
+    let rows = 0;
+
+    
 
     const handleDrop = (e) => {
         e.preventDefault();
@@ -33,25 +37,18 @@ const DragAndDrop = () => {
             .then(data => {
               setMessage(data);
               console.log(data);
+              setMes(data);
+              rows = mes.map(item => (
+                <tr key={item.name}>
+                  <td>{item.error}</td>
+                  <td>{item.message}</td>
+                  <td>{item.name}</td>
+                </tr>
+              )
+              );
             });
-            
-            console.log(data[0]);
-          };  
-        // const csvData = reader.result;
-
-        // const { data } = parse(csvData, { header: true });
-
-        // // set file data state
-        // setFileData(data);
-
-
-        // console.log(data[0]);
-
-        // log table to console
-        // createSchema(data);
-        
+          };
     };
-
   const handleDragOver = (event) => {
     event.preventDefault();
     setDragging(true);
@@ -62,6 +59,7 @@ const DragAndDrop = () => {
   };
 
   return (
+    <div>
     <div
       className={`drop-area${dragging ? " dragging" : ""}`}
       onDragOver={handleDragOver}
@@ -69,7 +67,27 @@ const DragAndDrop = () => {
       onDrop={handleDrop}
     >
       <p>Drag and drop files here</p>
-      <h1>{message && <p>{message.response}</p>}</h1>
+    </div>
+    {mes.length > 0 && (
+    <table>
+      <thead>
+        <tr>
+          <th>Error Type</th>
+          <th>Message</th>
+          <th>Table Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {mes.map((item) => (
+          <tr key={item.name}>
+            <td>{item.error}</td>
+            <td>{item.message}</td>
+            <td>{item.name}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )}
     </div>
   );
 };

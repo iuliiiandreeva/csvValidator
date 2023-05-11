@@ -1,0 +1,44 @@
+{
+    "tables" : [
+            {
+                "id": 1,
+                "name": "SomeTable",
+                "schema":{
+                    "name":{"type":"string","pattern":"^.*$"},
+                    "email":{"type":"string","pattern":"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"},
+                    "phone":{"type":"integer","minimum":0,"maximum":120},
+                    "age":{"type":"integer","minimum":0,"maximum":120},
+                    "gender":{"type":"string","pattern":"^[M|F]$"},
+                    "weight":{"type":"integer","minimum":0,"maximum":500},
+                    "height":{"type":"integer","minimum":0,"maximum":300}},
+                    "required":["name","email","phone","age","gender","weight","height"]
+            },
+            {
+                "id": 2,
+                "name": "anytable",
+                "schema":{
+                    "name":{"type":"string","pattern":"^.*$"},
+                    "email":{"type":"string","pattern":"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"},
+                    "phone":{"type":"integer","minimum":0,"maximum":120},
+                    "age":{"type":"integer","minimum":0,"maximum":120},
+                    "gender":{"type":"string","pattern":"^[M|F]$"},
+                    "weight":{"type":"integer","minimum":0,"maximum":500},
+                    "height":{"type":"integer","minimum":0,"maximum":300}},
+                    "required":["name","email","phone","age","gender","weight","height"]
+            }, 
+            {
+                "id": 3,
+                "name": "eeee",
+                "schema":{
+                    "Index":{"type":"integer","minimum":0,"maximum":500},
+                    "Cr":{"type":"float","minimum":0,"maximum":500},
+                    "Mn":{"type":"float","minimum":0,"maximum":500},
+                    "Fe":{"type":"float","minimum":0,"maximum":500},
+                    "Co":{"type":"float","minimum":0,"maximum":300},
+                    "Mo":{"type":"float","minimum":0,"maximum":300}
+                },
+                    "required":["Index","Cr","Mn","Fe","Co","Mo"]
+            }
+        
+    ]
+}

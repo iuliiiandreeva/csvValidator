@@ -1,0 +1,7 @@
+name,email,phone,age,gender,weight,height
+John Doe,john.doe@example.com,1234567890,30,M,75,180
+Jane Smith,jane.smith@example.com,0987654321,25,F,60,165
+Bob Johnson,bob.johnson@example.com,1112223333,45,M,90,190
+Alice Lee,alice.lee@example.com,4445556666,32,F,55,160
+Chris Brown,chris.brown@example.com,7778889999,50,M,600,185
+Sarah Kim,sarah.kim@example.com,3334445555,27,F,65,170

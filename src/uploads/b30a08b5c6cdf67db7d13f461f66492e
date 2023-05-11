@@ -1,7 +1,0 @@
-name,type
-name,VARCHAR (1024)
-type,VARCHAR (1024)
-ob_transaction_id,varchar(256)
-ob_file_name,varchar(2048)
-ob_processed_at,varchar(256)
-ob_modified_date,datetime
