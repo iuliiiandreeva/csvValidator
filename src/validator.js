@@ -32,6 +32,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
       }
     })
     .on('headers', (headers) => {
+      console.log(headers);
       // Initialize types object with headers
       headers.forEach((header) => {
         types[header] = {
@@ -53,6 +54,62 @@ app.post('/upload', upload.single('file'), (req, res) => {
       const schema = generateSchema(types); 
       // Сгенерировали схему для текущей таблицы (а где таблица)
       axios.get('http://localhost:3001/tables')
+      .then(response => {
+        let errors = [];
+        for (let i = 0; i < response.data.length; i++) {
+          errors = compareRows(response.data[i], schema, columnValues, errors);
+          //console.log(response.data[i].name);
+          errors[i].name = response.data[i].name;
+        }
+        console.log(errors);
+        res.send(errors);
+
+      })
+      .catch(error => {
+        console.error(error);
+      });
+      });
+});
+
+app.post('/uploadedTable', upload.single('file'), (req, res) => {
+  console.log('Received a file upload request');
+  const columnValues = {}; // object to hold column values
+
+  fs.createReadStream(req.file.path)
+    .pipe(csv())
+    .on('data', function(row) {
+      // add row values to object
+      for (const column in row) {
+        if (!columnValues[column]) {
+          columnValues[column] = [];
+        }
+        columnValues[column].push(row[column]); // Обработали таблцу чтобы передавать ее дальше
+        console.log(columnValues);
+      }
+    })
+    .on('headers', (headers) => {
+      //console.log(headers);
+      // Initialize types object with headers
+      headers.forEach((header) => {
+        types[header] = {
+          integer: 0,
+          float: 0,
+          string: 0,
+          date: 0
+        };
+      });
+    })
+    .on('data', (row) => {
+      Object.keys(row).forEach((key) => {
+        const value = row[key];
+        const valueType = getValueType(value);
+        types[key][valueType]++;
+      });
+    })
+    .on('end', () => {
+      const schema = generateSchema(types); 
+      // Сгенерировали схему для текущей таблицы (а где таблица)
+      axios.get('http://localhost:3001/uploadedTables')
       .then(response => {
         let errors = [];
         for (let i = 0; i < response.data.length; i++) {
@@ -224,7 +281,7 @@ function checkStrings(tableColumn, pattern, nameOfColumn) {
   let errors = [];
   for (const item of tableColumn) {
       if (!patterned.test(item)) {
-        errors.push(`В колонке ${nameOfColumn} ${item} строка не совпадает с паттерном ${patterned}`);
+        errors.push(`В колонке ${nameOfColumn} ${item} строка не совпадает с паттерном ${patterned}\n`);
       }
   }
   if (errors.length > 0) {
@@ -236,9 +293,12 @@ function checkStrings(tableColumn, pattern, nameOfColumn) {
 
 function checkNumbers(tableColumn, min, max, nameOfColumn) {
   let errors = [];
+  console.log(typeof min);
+  console.log(min);
   for (const item of tableColumn) {
-      if (item < min || item > max) {
-        errors.push(`В колонке ${nameOfColumn} ${item} не входит в границы ${min} - ${max}`);
+      if (Number(item) < min || Number(item) > max) {
+        console.log(Number(item));
+        errors.push(`В колонке ${nameOfColumn} ${item} не входит в границы ${min} - ${max}\n`);
       }
   }
   if (errors.length > 0) {

@@ -1,44 +1,298 @@
 {
-    "tables" : [
-            {
-                "id": 1,
-                "name": "SomeTable",
-                "schema":{
-                    "name":{"type":"string","pattern":"^.*$"},
-                    "email":{"type":"string","pattern":"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"},
-                    "phone":{"type":"integer","minimum":0,"maximum":120},
-                    "age":{"type":"integer","minimum":0,"maximum":120},
-                    "gender":{"type":"string","pattern":"^[M|F]$"},
-                    "weight":{"type":"integer","minimum":0,"maximum":500},
-                    "height":{"type":"integer","minimum":0,"maximum":300}},
-                    "required":["name","email","phone","age","gender","weight","height"]
-            },
-            {
-                "id": 2,
-                "name": "anytable",
-                "schema":{
-                    "name":{"type":"string","pattern":"^.*$"},
-                    "email":{"type":"string","pattern":"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"},
-                    "phone":{"type":"integer","minimum":0,"maximum":120},
-                    "age":{"type":"integer","minimum":0,"maximum":120},
-                    "gender":{"type":"string","pattern":"^[M|F]$"},
-                    "weight":{"type":"integer","minimum":0,"maximum":500},
-                    "height":{"type":"integer","minimum":0,"maximum":300}},
-                    "required":["name","email","phone","age","gender","weight","height"]
-            }, 
-            {
-                "id": 3,
-                "name": "eeee",
-                "schema":{
-                    "Index":{"type":"integer","minimum":0,"maximum":500},
-                    "Cr":{"type":"float","minimum":0,"maximum":500},
-                    "Mn":{"type":"float","minimum":0,"maximum":500},
-                    "Fe":{"type":"float","minimum":0,"maximum":500},
-                    "Co":{"type":"float","minimum":0,"maximum":300},
-                    "Mo":{"type":"float","minimum":0,"maximum":300}
-                },
-                    "required":["Index","Cr","Mn","Fe","Co","Mo"]
-            }
-        
-    ]
+  "tables": [
+    {
+      "id": 1,
+      "name": "SomeTable",
+      "schema": {
+        "name": {
+          "type": "string",
+          "pattern": "^.*$"
+        },
+        "email": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"
+        },
+        "phone": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 120
+        },
+        "age": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 120
+        },
+        "gender": {
+          "type": "string",
+          "pattern": "^[M|F]$"
+        },
+        "weight": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 500
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 300
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "phone",
+        "age",
+        "gender",
+        "weight",
+        "height"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "anytable",
+      "schema": {
+        "name": {
+          "type": "string",
+          "pattern": "^.*$"
+        },
+        "email": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"
+        },
+        "phone": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 120
+        },
+        "age": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 120
+        },
+        "gender": {
+          "type": "string",
+          "pattern": "^[M|F]$"
+        },
+        "weight": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 500
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 300
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "phone",
+        "age",
+        "gender",
+        "weight",
+        "height"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "eeee",
+      "schema": {
+        "Index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 500
+        },
+        "Cr": {
+          "type": "float",
+          "minimum": 0,
+          "maximum": 500
+        },
+        "Mn": {
+          "type": "float",
+          "minimum": 0,
+          "maximum": 500
+        },
+        "Fe": {
+          "type": "float",
+          "minimum": 0,
+          "maximum": 500
+        },
+        "Co": {
+          "type": "float",
+          "minimum": 0,
+          "maximum": 300
+        },
+        "Mo": {
+          "type": "float",
+          "minimum": 0,
+          "maximum": 300
+        }
+      },
+      "required": [
+        "Index",
+        "Cr",
+        "Mn",
+        "Fe",
+        "Co",
+        "Mo"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "SpectrumTable",
+      "schema": {
+        "Index": {
+          "type": "string",
+          "pattern": "^Spectrum 1 \\{\\d+\\}$"
+        },
+        "x": {
+          "type": "float"
+        },
+        "y": {
+          "type": "float"
+        },
+        "N": {
+          "type": "float",
+          "minimum": 0,
+          "maximum": 500
+        },
+        "O": {
+          "type": "float",
+          "minimum": 0,
+          "maximum": 500
+        },
+        "Cr": {
+          "type": "float",
+          "minimum": 0,
+          "maximum": 500
+        }
+      },
+      "required": [
+        "Index",
+        "x",
+        "y",
+        "N",
+        "O",
+        "Cr"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "SpectrumTable",
+      "schema": {
+        "Index": {
+          "type": "string",
+          "pattern": "^Spectrum 1 \\{\\d+\\}$"
+        },
+        "x": {
+          "type": "integer"
+        },
+        "y": {
+          "type": "float"
+        },
+        "N": {
+          "type": "float",
+          "minimum": 0,
+          "maximum": 500
+        },
+        "O": {
+          "type": "float",
+          "minimum": 0,
+          "maximum": 500
+        },
+        "Cr": {
+          "type": "float",
+          "minimum": 0,
+          "maximum": 500
+        }
+      },
+      "required": [
+        "Index",
+        "x",
+        "y",
+        "N",
+        "O",
+        "Cr"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "SpectrumTable",
+      "schema": {
+        "Index": {
+          "type": "string",
+          "pattern": "^Spectrum 1 \\{\\d+\\}$"
+        },
+        "x": {
+          "type": "integer"
+        },
+        "y": {
+          "type": "float"
+        },
+        "N": {
+          "type": "float",
+          "minimum": -1,
+          "maximum": 500
+        },
+        "O": {
+          "type": "float",
+          "minimum": 0,
+          "maximum": 500
+        },
+        "Cr": {
+          "type": "float",
+          "minimum": 0,
+          "maximum": 500
+        }
+      },
+      "required": [
+        "Index",
+        "x",
+        "y",
+        "N",
+        "O",
+        "Cr"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "CrNH",
+      "schema": {
+        "X": {
+          "type": "float",
+          "minimum": -10000,
+          "maximum": 100000
+        },
+        "Y": {
+          "type": "float",
+          "minimum": -10000,
+          "maximum": 100000
+        },
+        "R1": {
+          "type": "float",
+          "minimum": -10000,
+          "maximum": 100000
+        },
+        "R2": {
+          "type": "float",
+          "minimum": -10000,
+          "maximum": 100000
+        },
+        "R3": {
+          "type": "float",
+          "minimum": -10000,
+          "maximum": 100000
+        }
+      },
+      "required": [
+        "X",
+        "Y",
+        "R1",
+        "R2",
+        "R3"
+      ]
+    }
+  ],
+  "uploadedTables": []
 }

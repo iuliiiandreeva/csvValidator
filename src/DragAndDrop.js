@@ -6,6 +6,8 @@ const DragAndDrop = () => {
     const [fileData, setFileData] = useState([]);
     const [dragging, setDragging] = useState(false);
     const [message, setMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+
     const [mes, setMes] = useState([]);
     let rows = 0;
 
@@ -16,7 +18,14 @@ const DragAndDrop = () => {
 
         // setDragging(false);
         const file = e.dataTransfer.files[0];
-        console.log(file);
+        const fileName = file.name;
+        const fileExtension = fileName.split(".").pop();
+      
+        // Check if the file extension is not "csv"
+        if (fileExtension.toLowerCase() !== "csv") {
+          setErrorMessage("Invalid file type. Please upload a CSV file.");
+          return; // Return early to prevent further execution
+        }
         const reader = new FileReader();
         reader.readAsText(file);
 
@@ -88,6 +97,7 @@ const DragAndDrop = () => {
       </tbody>
     </table>
   )}
+  {errorMessage && <h3>{errorMessage}</h3>}
     </div>
   );
 };

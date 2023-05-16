@@ -1,9 +1,9 @@
 import "./index.css";
-
-
-
 import React from "react";
 import DragAndDrop from "./DragAndDrop";
+import UploadComponent from "./UploadComponent";
+
+
 
 const App = () => {
   return (
@@ -14,13 +14,18 @@ const App = () => {
           <h3>CSV validator</h3>
         </header>
         <div>
-          <h1>Добавьте CSV файл ниже, чтобы проверить похож ли он на смеху</h1>
+          <h1>Добавьте CSV файл ниже</h1>
+          <p>Сервис загрузит данные на сервер и проверит совпадение с существующими таблицами</p>
         <DragAndDrop />
+        <br></br>
+        <br></br>
+        <h1>Добавьте CSV файл и JSON схему ниже</h1>
+        <p>Сервис проверит совпадение вашей таблицы с загруженной схемой</p>
+        <UploadComponent/>
+       
       </div>
     </div>
-
     </body>
-
   );
 };
 
