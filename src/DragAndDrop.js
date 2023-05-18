@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./index.css";
 import { parse } from "papaparse";
 
@@ -31,9 +31,34 @@ const DragAndDrop = () => {
 
         reader.onload = () => {
             const csvData = reader.result;
+            const lines = csvData.split('\n');
+            let delimiter = '';
+            const firstLine = csvData.slice(0, csvData.indexOf('\n'));
+            if (firstLine.includes(',')) {
+              delimiter = ',';
+            } else if (firstLine.includes(';')) {
+              delimiter = ';';
+            } else {
+              setErrorMessage('Unable to determine the CSV delimiter.');
+              return;
+            }
 
-            const { data } = parse(csvData, { header: true });
+            for (let i = 1; i < lines.length - 1; i++) {
+              const columns = lines[i].split(delimiter);
+              console.log(columns);
+      
+              if (columns.some((column) => column.trim() === '')) {
+                // Empty data found in the CSV file
+                setErrorMessage('CSV файл содержит пустые ячейки.');
+                return;
+              }
+            }
+
+            const { data } = parse(csvData, { header: true, delimiter: delimiter });
             setFileData(data);
+            console.log(11111);
+            console.log(file);
+            console.log(data);
           
             const formData = new FormData();
             formData.append('file', file);
@@ -45,7 +70,7 @@ const DragAndDrop = () => {
             .then(response => response.json())
             .then(data => {
               setMessage(data);
-              console.log(data);
+              // console.log(data);
               setMes(data);
               rows = mes.map(item => (
                 <tr key={item.name}>
@@ -90,7 +115,7 @@ const DragAndDrop = () => {
         {mes.map((item) => (
           <tr key={item.name}>
             <td>{item.error}</td>
-            <td>{item.message}</td>
+            <td> {item.message.length > 500 ? `${item.message.slice(0, 500)}...` : item.message}}</td>
             <td>{item.name}</td>
           </tr>
         ))}

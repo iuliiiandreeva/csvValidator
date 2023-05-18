@@ -3,25 +3,41 @@ const csv = require('csv-parser');
 const express = require('express');
 const multer = require('multer');
 const axios = require('axios');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+
 const types = {};
 
 const cors = require('cors');
-
 const app = express();
 app.use(cors());
-
 const upload = multer({ dest: 'uploads/' });
 
-// app.get('/', (req, res) => {
-//   res.sendFile(__dirname + '/index.html');
-// });
+const swaggerDocument = YAML.load('swagger.yaml');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 app.post('/upload', upload.single('file'), (req, res) => {
   console.log('Received a file upload request');
   const columnValues = {}; // object to hold column values
-
-  fs.createReadStream(req.file.path)
-    .pipe(csv())
+  const types = {};
+  fs.readFile(req.file.path, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading the CSV file:', err);
+      return;
+    }
+  
+    const lines = data.trim().split('\n');
+    const firstLine = lines[0];
+    let delimiter = '';
+    if (firstLine.includes(',')) {
+      delimiter = ',';
+    } else if (firstLine.includes(';')) {
+      delimiter = ';';
+    }
+    fs.createReadStream(req.file.path)
+    .pipe(csv({ separator: delimiter }))
     .on('data', function(row) {
       // add row values to object
       for (const column in row) {
@@ -32,7 +48,6 @@ app.post('/upload', upload.single('file'), (req, res) => {
       }
     })
     .on('headers', (headers) => {
-      console.log(headers);
       // Initialize types object with headers
       headers.forEach((header) => {
         types[header] = {
@@ -44,11 +59,16 @@ app.post('/upload', upload.single('file'), (req, res) => {
       });
     })
     .on('data', (row) => {
-      Object.keys(row).forEach((key) => {
-        const value = row[key];
-        const valueType = getValueType(value);
-        types[key][valueType]++;
-      });
+      try {
+        Object.keys(row).forEach((key) => {
+          const value = row[key];
+          const valueType = getValueType(value);
+          types[key][valueType]++;
+        });
+      } catch (error) {
+        // Handle the error
+        console.error('Error occurred while processing row:', error);
+      }
     })
     .on('end', () => {
       const schema = generateSchema(types); 
@@ -61,8 +81,9 @@ app.post('/upload', upload.single('file'), (req, res) => {
           //console.log(response.data[i].name);
           errors[i].name = response.data[i].name;
         }
-        console.log(errors);
-        res.send(errors);
+        // console.log(errors);
+        //res.send(errors);
+        res.status(200).json(errors);
 
       })
       .catch(error => {
@@ -70,11 +91,28 @@ app.post('/upload', upload.single('file'), (req, res) => {
       });
       });
 });
+  });
+
+  
 
 app.post('/uploadedTable', upload.single('file'), (req, res) => {
   console.log('Received a file upload request');
-  const columnValues = {}; // object to hold column values
-
+  const columnValues = {};
+  fs.readFile(req.file.path, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading the CSV file:', err);
+      return;
+    }
+  
+    const lines = data.trim().split('\n');
+    const firstLine = lines[0];
+    let delimiter = '';
+    if (firstLine.includes(',')) {
+      delimiter = ',';
+    } else if (firstLine.includes(';')) {
+      delimiter = ';';
+    }
+  
   fs.createReadStream(req.file.path)
     .pipe(csv())
     .on('data', function(row) {
@@ -114,7 +152,6 @@ app.post('/uploadedTable', upload.single('file'), (req, res) => {
         let errors = [];
         for (let i = 0; i < response.data.length; i++) {
           errors = compareRows(response.data[i], schema, columnValues, errors);
-          //console.log(response.data[i].name);
           errors[i].name = response.data[i].name;
         }
         console.log(errors);
@@ -124,7 +161,7 @@ app.post('/uploadedTable', upload.single('file'), (req, res) => {
       .catch(error => {
         console.error(error);
       });
-      });
+      });});
 });
 
 app.listen(8000, () => {
@@ -224,6 +261,7 @@ function getMaximumValue(typeCounts, type) {
 function compareRows(row, currentRow, table, errors) { // Передавать сразу table.schema
   // Проверим, что нужные колонки присутствуют в нашей схеме
   let result = [];
+  console.log(currentRow);
   if (!currentRow.required.every(val => row.required.includes(val))) {
     errors.push(
       {error: 'Названия колонок',
@@ -296,7 +334,7 @@ function checkNumbers(tableColumn, min, max, nameOfColumn) {
   console.log(typeof min);
   console.log(min);
   for (const item of tableColumn) {
-      if (Number(item) < min || Number(item) > max) {
+      if (Number(item) <= min || Number(item) > max) {
         console.log(Number(item));
         errors.push(`В колонке ${nameOfColumn} ${item} не входит в границы ${min} - ${max}\n`);
       }
